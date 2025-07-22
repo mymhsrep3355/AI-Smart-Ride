@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:smart_ride/src/modules/choose_ride_carpooling/choose_ride_carpooling_view.dart';
 import 'package:smart_ride/src/modules/driver_arrived/driver_arrived_view.dart';
 import 'package:smart_ride/src/modules/message_driver_screen/message_driver_view.dart';
 import 'package:smart_ride/src/services/url.dart';
@@ -225,9 +226,16 @@ Phone: $phone
       final response = await dio.post(passengerCancelRide(rideId));
       if (response.statusCode == 200 && response.data['success'] == true) {
         Get.snackbar('Cancelled', 'Your ride has been cancelled');
-        Get.offAllNamed('/'); // Or navigate to home or previous screen
+        // Get.offAllNamed('/');
+        Get.to(() => ChooseRideCarpoolingView(
+              pickupLocation: pickupLocation,
+              dropoffLocations: dropoffLocations,
+              pickupAddress: pickupAddress,
+              dropoffAddresses: dropoffAddresses,
+            ));
       } else {
-        Get.snackbar('Error', response.data['message'] ?? 'Failed to cancel ride');
+        Get.snackbar(
+            'Error', response.data['message'] ?? 'Failed to cancel ride');
       }
     } catch (e) {
       Get.snackbar('Error', 'Failed to cancel ride');

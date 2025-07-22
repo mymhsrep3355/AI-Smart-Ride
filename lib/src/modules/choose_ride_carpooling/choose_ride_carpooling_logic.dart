@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:smart_ride/src/general_controller/GeneralController.dart';
+import 'package:smart_ride/src/modules/accept_ride/accept_ride_view.dart';
 import 'package:smart_ride/src/modules/carpooling_driver_ETA/carpooling_driver_ETA_logic.dart';
 import 'package:smart_ride/src/modules/carpooling_driver_ETA/carpooling_driver_ETA_view.dart';
 import 'package:dio/dio.dart';
@@ -74,6 +75,14 @@ class ChooseRideCarpoolingController extends GetxController {
       final response = await dio.post(passengerAcceptRideURL(rideId));
       if (response.statusCode == 200 && response.data['success'] == true) {
         Get.to(() => const CarpoolingDriverETAView(), arguments: {
+          'driverInfo': offer,
+          'driverLocation': pickupLocation,
+          'pickupLocation': pickupLocation,
+          'dropoffLocations': dropoffLocations,
+          'pickupAddress': pickupAddress,
+          'dropoffAddresses': dropoffAddresses,
+        });
+        Get.to(() => UserInformationView(), arguments: {
           'driverInfo': offer,
           'driverLocation': pickupLocation,
           'pickupLocation': pickupLocation,

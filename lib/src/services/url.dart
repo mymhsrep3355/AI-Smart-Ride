@@ -48,6 +48,7 @@ String passengerReviewRide(String rideId) =>
     "$baseUrl/passenger/rides/review/$rideId";
 String driverStartRide(String rideId) => "$baseUrl/driver/rides/start/$rideId";
 String driverEndRide(String rideId) => "$baseUrl/driver/rides/end/$rideId";
-
+String driverArriveAPI(String rideId) => "$baseUrl/driver/rides/arrive/$rideId";
+String passengerCancelRideAPI(String rideId) => "$baseUrl/passenger/rides/cancel/$rideId";
 final String logoutAccount = '$baseUrl/driver/logout';
 final String delete = '$baseUrl/driver/delete';
