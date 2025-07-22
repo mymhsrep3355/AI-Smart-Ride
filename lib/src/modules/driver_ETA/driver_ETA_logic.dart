@@ -104,15 +104,52 @@ class DriverETAController extends GetxController {
     });
   }
 
-  void _navigateToDriverArrived() {
-    Get.off(() => DriverArrivedView(
-          driverInfo: driverInfo,
-          pickupLocation: pickupLocation,
-          dropoffLocations: dropoffLocations,
-          pickupAddress: pickupAddress,
-          dropoffAddresses: dropoffAddresses,
-        ));
+  // void _navigateToDriverArrived() {
+  //   Get.off(() => DriverArrivedView(
+  //         driverInfo: driverInfo,
+  //         pickupLocation: pickupLocation,
+  //         dropoffLocations: dropoffLocations,
+  //         pickupAddress: pickupAddress,
+  //         dropoffAddresses: dropoffAddresses,
+  //       ));
+  // }
+
+  void _navigateToDriverArrived() async {
+  final token = Get.find<GeneralController>().box.read(AppKeys.authToken);
+  final rideId = driverInfo['rideId'];
+
+  if (token == null || rideId == null) {
+    Get.snackbar("Error", "Missing auth token or ride ID",
+        backgroundColor: Colors.red, colorText: Colors.white);
+    return;
   }
+
+  final dio = Dio();
+  dio.options.headers = {
+    'Authorization': 'Bearer $token',
+  };
+
+  try {
+    final response = await dio.post(passengerComingRide(rideId));
+
+    if (response.statusCode == 200 && response.data['success'] == true) {
+      Get.to(() => DriverArrivedView(
+            driverInfo: driverInfo,
+            pickupLocation: pickupLocation,
+            dropoffLocations: dropoffLocations,
+            pickupAddress: pickupAddress,
+            dropoffAddresses: dropoffAddresses,
+          ));
+    } else {
+      Get.snackbar("Error", response.data['message'] ?? "Could not proceed to ride",
+          backgroundColor: Colors.red, colorText: Colors.white);
+    }
+  } catch (e) {
+    print("🚨 Error navigating to driver arrived screen: $e");
+    Get.snackbar("Error", "Network error",
+        backgroundColor: Colors.red, colorText: Colors.white);
+  }
+}
 
   void messageDriver() {
     Get.to(() => DriverChattingScreenView());
