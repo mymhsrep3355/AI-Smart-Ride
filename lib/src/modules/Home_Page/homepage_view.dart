@@ -3,17 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smart_ride/src/modules/History_screen/history_view.dart';
 import 'package:smart_ride/src/modules/Home_Page/homepage_logic.dart';
-
 import 'package:smart_ride/src/modules/carpooling_pick_drop/carpooling_pick_drop_view.dart';
 import 'package:smart_ride/src/modules/chat_page/chat_page_view.dart';
 import 'package:smart_ride/src/modules/customwidget/custom_bottom_navbar.dart';
 import 'package:smart_ride/src/modules/customwidget/custom_button.dart';
-
 import 'package:smart_ride/src/modules/passengerToDriver/passengerToDriverLogic.dart';
 import 'package:smart_ride/src/modules/passengerToDriver/passengerToDriverView.dart';
 import 'package:smart_ride/src/modules/pick_drop/pick_drop_view.dart';
 import 'package:smart_ride/src/modules/setting_screen/setting_screen_view.dart';
-
 import 'package:smart_ride/src/modules/utlis/app_fonts.dart';
 import 'package:smart_ride/src/modules/utlis/app_images.dart';
 import 'package:get/get.dart';
@@ -55,7 +52,7 @@ class HomePageView extends StatelessWidget {
                     title: Text('Home'),
                     onTap: () {
                       Navigator.pop(context);
-                      controller.onNavTapped(0); // Go to Home
+                      controller.onNavTapped(0);
                     },
                   ),
                   ListTile(
@@ -63,7 +60,7 @@ class HomePageView extends StatelessWidget {
                     title: Text('History'),
                     onTap: () {
                       Navigator.pop(context);
-                      controller.onNavTapped(1); // Go to HistoryView
+                      controller.onNavTapped(1);
                     },
                   ),
                   ListTile(
@@ -71,7 +68,7 @@ class HomePageView extends StatelessWidget {
                     title: Text('Chat'),
                     onTap: () {
                       Navigator.pop(context);
-                      controller.onNavTapped(2); // Go to Chat Page
+                      controller.onNavTapped(2);
                     },
                   ),
                   Divider(),
@@ -82,10 +79,9 @@ class HomePageView extends StatelessWidget {
                       text: 'Settings',
                       backgroundColor: Colors.blue,
                       onPressed: () {
-                        Navigator.pop(context); // Close the drawer first
+                        Navigator.pop(context);
                         Future.delayed(const Duration(milliseconds: 250), () {
-                          Get.to(() =>
-                              SettingsView()); // Navigate to settings screen
+                          Get.to(() => SettingsView());
                         });
                       },
                     ),
@@ -97,12 +93,10 @@ class HomePageView extends StatelessWidget {
                       text: 'Driver Mode',
                       backgroundColor: Colors.blue,
                       onPressed: () {
-                        Navigator.pop(context); // Close the drawer
+                        Navigator.pop(context);
                         Future.delayed(const Duration(milliseconds: 250), () {
-                          Get.lazyPut(() =>
-                              PassengerToDriverController()); // ✅ Inject controller
-                          Get.offAll(() =>
-                              PassengerToDriverView()); // ✅ Navigate to view
+                          Get.lazyPut(() => PassengerToDriverController());
+                          Get.offAll(() => PassengerToDriverView());
                         });
                       },
                     ),
@@ -111,18 +105,35 @@ class HomePageView extends StatelessWidget {
               ),
             ),
             body: SafeArea(
-              child: Obx(() {
-                switch (controller.selectedIndex.value) {
-                  case 0:
-                    return _buildHomeContent(context);
-                  case 1:
-                    return HistoryView();
-                  case 2:
-                    return GroupChatScreen();
-                  default:
-                    return _buildHomeContent(context);
-                }
-              }),
+              child: Stack(
+                children: [
+                  Obx(() {
+                    switch (controller.selectedIndex.value) {
+                      case 0:
+                        return _buildHomeContent(context);
+                      case 1:
+                        return HistoryView();
+                      case 2:
+                        return GroupChatScreen();
+                      default:
+                        return _buildHomeContent(context);
+                    }
+                  }),
+
+                  /// AI Chatbot Floating Button
+                  Positioned(
+                    bottom: 80,
+                    right: 16,
+                    child: FloatingActionButton(
+                      backgroundColor: Colors.blueAccent,
+                      onPressed: () {
+                        Get.toNamed('/ai-chatbot');
+                      },
+                      child: const Icon(Icons.chat, color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
             ),
             bottomNavigationBar: Obx(() => CustomBottomNavBar(
                   currentIndex: controller.selectedIndex.value,
@@ -265,8 +276,7 @@ class HomePageView extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PickDropView(vehicleType: label),
-                    ),
+                        builder: (context) => PickDropView(vehicleType: label)),
                   );
                 }
               },

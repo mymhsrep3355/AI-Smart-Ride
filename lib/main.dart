@@ -9,6 +9,7 @@ import 'package:smart_ride/src/modules/ForgotPasswordPassengerVerification/Forgo
 import 'package:smart_ride/src/modules/Home_Page/homepage_view.dart';
 import 'package:smart_ride/src/modules/PassengerCreatePassword/PassengerCreatePasswordView.dart';
 import 'package:smart_ride/src/modules/carpooling_pick_drop/carpooling_pick_drop_view.dart';
+import 'package:smart_ride/src/modules/chat-bot/ai_chatbot_view.dart';
 
 import 'package:smart_ride/src/modules/chat_page/chat_page_view.dart';
 import 'package:smart_ride/src/modules/chatting_screen/chatting_screen_view.dart';
@@ -16,7 +17,6 @@ import 'package:smart_ride/src/modules/driverSignUpverification/driver_signupVer
 import 'package:smart_ride/src/modules/driver_Signup/driver_signup_view.dart';
 import 'package:smart_ride/src/modules/driver_activerequestpage/active_request_logic.dart';
 import 'package:smart_ride/src/modules/driver_activerequestpage/active_request_view.dart';
-
 
 import 'package:smart_ride/src/modules/driver_homepage/driver_home_view.dart';
 import 'package:smart_ride/src/modules/driver_info/driver_info_view.dart';
@@ -78,6 +78,10 @@ class MyApp extends StatelessWidget {
               name: '/passengerVerification',
               page: () => const PassengerVerificationView()),
           GetPage(name: '/signup', page: () => const SignView()),
+          GetPage(
+            name: '/ai-chatbot',
+            page: () => const AIChatBotView(),
+          ),
           GetPage(
               name: '/signupChoice',
               page: () => const SignUpTypeSelectionView()),
